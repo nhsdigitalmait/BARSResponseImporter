@@ -90,8 +90,12 @@ public class BARSResponseImporter {
      * @throws Exception
      */
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, Exception {
-        FHIRJsonXmlAdapter.setFhirVersion(FhirVersionEnum.R4);
-        new BARSResponseImporter(args);
+        if (args.length == 1 && args[0].toLowerCase().trim().equals("-version")) {
+            System.out.println(versionString);
+        } else {
+            FHIRJsonXmlAdapter.setFhirVersion(FhirVersionEnum.R4);
+            new BARSResponseImporter(args);
+        }
     }
 
     /**
@@ -659,7 +663,7 @@ public class BARSResponseImporter {
     } // Consumer thread class
     
     static {
-        ClassLoader classLoader = ToolkitSimulator.class.getClassLoader();
+        ClassLoader classLoader = BARSResponseImporter.class.getClassLoader();
         Properties versionProperties = new Properties();
         try {
             versionProperties.load(classLoader.getResourceAsStream("git.properties"));
